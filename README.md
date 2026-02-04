@@ -133,12 +133,21 @@ Comme illustré dans la configuration du fichier .env, l'application communique 
 
 <img width="1894" height="1031" alt="ecommecer" src="https://github.com/user-attachments/assets/57ee8c83-9c69-4a5e-b84d-d54146b3f983" />
 
-### 5. Finalisation et Initialisation du Projet
-Une fois les conteneurs démarrés, nous procédons à la migration du schéma de base de données vers RDS et à la création de l'administrateur.
+### Ajout d'un produit sur le site Ecommerce
 
-    docker exec -it rocket_django python manage.py migrate
-    docker exec -it rocket_django python manage.py collectstatic --no-input
-    docker exec -it rocket_django python manage.py createsuperuser
+<img width="1915" height="1034" alt="aws1" src="https://github.com/user-attachments/assets/c5669649-93a7-4491-844b-50483b617662" />
+
+### Preuve ajout produit sur Stripe
+
+<img width="964" height="74" alt="Stripe2" src="https://github.com/user-attachments/assets/24810673-60ad-46b7-ba77-255e49f8d8ce" />
+
+<img width="996" height="116" alt="stripe1" src="https://github.com/user-attachments/assets/5e075e24-04c0-488e-8b93-f8a9562b2fa2" />
+
+### Preuve de paiement du produit 
+
+<img width="1896" height="905" alt="Paiement" src="https://github.com/user-attachments/assets/dd444b00-ae10-4dd1-9c84-108ec51d088d" />
+
+<img width="1300" height="107" alt="Preuve_paiement" src="https://github.com/user-attachments/assets/1951c368-3070-4890-a4f7-510f8d9c9fe7" />
 
 
 # Installation de WordPress sur l'Instance 
