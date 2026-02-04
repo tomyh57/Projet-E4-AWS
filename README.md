@@ -405,6 +405,7 @@ L'objectif de cette phase est de passer d'un déploiement manuel à une infrastr
 
 ### 1. Schéma et Choix des Services
 
+<img width="1681" height="1682" alt="schema_partie3 drawio_1" src="https://github.com/user-attachments/assets/55a589a6-4699-4e57-a393-da3ce6461c94" />
 
 | Composant | Service AWS | Détails de Configuration |
 | :--- | :--- | :--- |
