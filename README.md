@@ -115,6 +115,9 @@ Configuration des variables d'environnement
 
     docker compose up -d --build
 
+Page web Ecommerce
+<img width="1894" height="1031" alt="ecommecer" src="https://github.com/user-attachments/assets/57ee8c83-9c69-4a5e-b84d-d54146b3f983" />
+
 ### 5. Finalisation et Initialisation du Projet
 Une fois les conteneurs démarrés, nous procédons à la migration du schéma de base de données vers RDS et à la création de l'administrateur.
 
