@@ -102,6 +102,8 @@ Extraction de l'archive et configuration des variables d'environnement pour lier
 
     mysql -u admin -h database-1-bfhk.ctykc0gcmtio.us-east-2.rds.amazonaws.com -p
 
+
+
 Configuration des variables d'environnement
 
     nano .env
@@ -128,6 +130,10 @@ Comme illustré dans la configuration du fichier .env, l'application communique 
 ### Appseed.conf 
 
 <img width="703" height="346" alt="appseed" src="https://github.com/user-attachments/assets/31474289-371d-4198-9566-74cc3413a02e" />
+
+### Base de donnée 
+
+<img width="663" height="905" alt="DB" src="https://github.com/user-attachments/assets/17ea2ca1-7dc8-45a7-9636-5a43c4b05f51" />
 
 ### Page web Ecommerce
 
