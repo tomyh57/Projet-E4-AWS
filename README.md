@@ -80,7 +80,7 @@ Déploiement des deux POC : l'application Ecommerce (Stripe) et WordPress.
 
 Pour répondre à la consigne de sauvegarde régulière des applications et bases de données.
 
-    aws s3 mb s3://backups-client-ecommerce-2026 --region eu-west-1
+    aws s3 mb s3://backups-client-ecommerce-2026 --region us-east-2
 
 
 # Installation Applicative : POC Ecommerce (Rocket-Ecommerce)
@@ -137,10 +137,14 @@ Puisque WordPress est seul sur cette instance, nous pouvons utiliser le port 80 
 
     mkdir ~/wordpress && cd ~/wordpress
     nano docker-compose.yml
+<img width="1091" height="305" alt="dcokercomposewordpress" src="https://github.com/user-attachments/assets/bf38b4e3-1eb7-456c-8859-188ac8c5ce1f" />
 
 ### 3. Lancement et vérification
 
     docker compose up -d
+
+Page web de wordpress 
+<img width="1917" height="969" alt="Capture d&#39;écran 2026-02-04 123023" src="https://github.com/user-attachments/assets/994b6c80-b9dc-4615-8807-eef0851d00b9" />
 
 # Procédure de Sauvegarde de la Base de Données (RDS vers S3)
 
@@ -162,6 +166,7 @@ Conformément aux consignes du projet, nous avons mis en place un processus de s
 
     aws s3 cp backup.sql s3://bucket1-bfhk/DB1/
 
+<img width="1907" height="685" alt="S3" src="https://github.com/user-attachments/assets/34bfb4e6-5bed-4e85-a9a9-9d4cca962127" />
 
 # Partie 2 : Isolation et Connectivité Inter-Équipes
 
