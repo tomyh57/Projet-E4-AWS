@@ -41,22 +41,23 @@ Configuration de l'accès Internet
 
 ### 2. Base de Données Managée (Amazon RDS)
 
-Le client exige une haute disponibilité et moins de gestion possible. Nous utilisons RDS avec l'option Multi-AZ.
+Le client exige une haute disponibilité et moins de gestion possible. 
+Nous utilisons RDS avec l'option Multi-AZ car cela répond directement aux trois exigences majeures du client : Haute disponibilité, Gestion minimale et Scalabilité.
 
     aws rds create-db-subnet-group \
         --db-subnet-group-name rds-private-group \
         --db-subnet-group-description "Subnets pour DB privée" \
-        --subnet-ids subnet-ID-A subnet-ID-B
+        --subnet-ids subnet-0e6601b928cbf6996 subnet-05e8caac9f82d6e34
         
     aws rds create-db-instance \
         --db-instance-identifier database-1-bfhk \
         --db-instance-class db.m7g.large \
         --engine mariadb \
-        --allocated-storage 20 \
+        --allocated-storage 400 \
         --db-subnet-group-name rds-private-group \
         --multi-az \
         --master-username admin \
-        --master-user-password VOTRE_MOT_DE_PASSE_SECURISE
+        --master-user-password Azerty123!
 
 ### 3. Intance (EC2)
 
@@ -80,7 +81,7 @@ Déploiement des deux POC : l'application Ecommerce (Stripe) et WordPress.
 
 Pour répondre à la consigne de sauvegarde régulière des applications et bases de données.
 
-    aws s3 mb s3://backups-client-ecommerce-2026 --region us-east-2
+    aws s3 mb s3://bucket1-bfhk --region us-east-2
 
 
 # Installation Applicative : POC Ecommerce (Rocket-Ecommerce)
@@ -92,7 +93,7 @@ Connexion SSH à l'instance via son adresse IP publique à l'aide de la clé pri
     ssh -i "KeyVM-BFHK.pem" ubuntu@3.149.236.21
 
 ### 2. Préparation du système et dépendances
-Mise à jour des dépôts et installation des utilitaires nécessaires (unzip pour l'archive et client MySQL pour tester la connexion RDS).
+Mise à jour des dépôts et installation des utilitaires nécessaires.
 
     sudo apt update
     sudo apt install unzip default-mysql-client -y
@@ -159,7 +160,7 @@ Comme illustré dans la configuration du fichier .env, l'application communique 
 # Installation de WordPress sur l'Instance 
 ### 1. Préparation de l'Instance
 
-installe les outils Docker.
+Installation des outils Docker.
 
     sudo apt update && sudo apt install docker.io docker-compose-v2 -y
     sudo systemctl enable --now docker
@@ -170,13 +171,15 @@ Puisque WordPress est seul sur cette instance, nous pouvons utiliser le port 80 
 
     mkdir ~/wordpress && cd ~/wordpress
     nano docker-compose.yml
+    
 <img width="1091" height="305" alt="dcokercomposewordpress" src="https://github.com/user-attachments/assets/bf38b4e3-1eb7-456c-8859-188ac8c5ce1f" />
 
 ### 3. Lancement et vérification
 
     docker compose up -d
 
-Page web de wordpress 
+### Page web de wordpress 
+
 <img width="1917" height="969" alt="Capture d&#39;écran 2026-02-04 123023" src="https://github.com/user-attachments/assets/994b6c80-b9dc-4615-8807-eef0851d00b9" />
 
 # Procédure de Sauvegarde de la Base de Données (RDS vers S3)
@@ -239,6 +242,15 @@ Pour que la communication fonctionne, nous devons ajouter des routes vers les CI
     aws ec2 create-route --route-table-id $RT_CYBER_ID --destination-cidr-block 10.1.0.0/16 --vpc-peering-connection-id $PEERING_MVP_ID
     aws ec2 create-route --route-table-id $RT_MVP_ID --destination-cidr-block 10.3.0.0/16 --vpc-peering-connection-id $PEERING_MVP_ID
 
+### Ping instance Cyber vers IA 
+
+<img width="542" height="147" alt="Ping1" src="https://github.com/user-attachments/assets/c1a76235-7ad3-4e64-8f1b-009bb7366d02" />
+
+### Ping instance IA vers Cyber bloqué 
+
+<img width="626" height="108" alt="ping2" src="https://github.com/user-attachments/assets/cd72a3e0-48be-466f-8f7d-fdd020b4671b" />
+
+
 # 3. Création des Internet Gateways (IGW)
 
  Chaque VPC a besoin de sa propre porte de sortie vers Internet.
@@ -251,7 +263,7 @@ Pour que la communication fonctionne, nous devons ajouter des routes vers les CI
 
 # 4. Mise en place de la NAT Gateway
 
-Une NAT Gateway (Network Address Translation) permet aux instances d'un subnet privé d'initier du trafic vers internet (pour télécharger des packages, par exemple) tout en empêchant internet d'initier une connexion directe vers elles.
+Une NAT Gateway permet aux instances d'un subnet privé d'initier du trafic vers internet tout en empêchant internet d'initier une connexion directe vers elles.
 
 ### 1. Allouer une IP Élastique (EIP)
 
@@ -353,4 +365,7 @@ Pour garantir la disponibilité de nos services (Ecommerce, WordPress, GitLab), 
 
 
 # Groupe de sécurité 
+
+<img width="1631" height="252" alt="Capture d&#39;écran 2026-02-04 154638" src="https://github.com/user-attachments/assets/db73d48c-af3e-43e3-9fa4-a686d4a5a1d2" />
+
 
