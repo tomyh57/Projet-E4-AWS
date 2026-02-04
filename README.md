@@ -214,6 +214,10 @@ Conformément aux consignes du projet, nous avons mis en place un processus de s
 
 L'objectif est de scinder l'infrastructure pour accueillir deux nouvelles équipes tout en maintenant une isolation stricte.
 
+### Schéma de l'infrastructure
+
+
+
 ### 1. Création des VPC dédiés
 
     aws ec2 create-vpc --cidr-block 10.2.0.0/16 --tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=VPC-IA-BFHK}]'
