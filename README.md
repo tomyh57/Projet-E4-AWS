@@ -16,7 +16,8 @@ Cette étape consiste à mettre en place le réseau, la base de données hauteme
 
 ### Schéma de l'infrastruture
 
-<img width="1631" height="252" alt="Capture d&#39;écran 2026-02-04 154638" src="https://github.com/user-attachments/assets/cdf2b001-6764-4e2a-b244-01e1f4aad9cd" />
+
+<img width="6937" height="4557" alt="AWS_VPC_MVP_E-Commerce_Flow-2026-02-04-084611" src="https://github.com/user-attachments/assets/982a1f3b-e64b-4ec9-9bd3-b15201152cea" />
 
 
 ### 1. Architecture Réseau (VPC & Segmentation)
