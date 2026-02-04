@@ -14,6 +14,11 @@ Ce dépôt contient l'ensemble des scripts de déploiement et la documentation t
 
 Cette étape consiste à mettre en place le réseau, la base de données hautement disponible et les serveurs d'application pour le MVP Ecommerce et la stack WordPress.
 
+### Schéma de l'infrastruture
+
+<img width="1631" height="252" alt="Capture d&#39;écran 2026-02-04 154638" src="https://github.com/user-attachments/assets/cdf2b001-6764-4e2a-b244-01e1f4aad9cd" />
+
+
 ### 1. Architecture Réseau (VPC & Segmentation)
 
 Pour garantir la sécurité, nous isolons les serveurs web dans un sous-réseau public et la base de données dans un sous-réseau privé.
@@ -203,6 +208,7 @@ Conformément aux consignes du projet, nous avons mis en place un processus de s
     aws s3 cp backup.sql s3://bucket1-bfhk/DB1/
 
 <img width="1907" height="685" alt="S3" src="https://github.com/user-attachments/assets/34bfb4e6-5bed-4e85-a9a9-9d4cca962127" />
+
 
 # Partie 2 : Isolation et Connectivité Inter-Équipes
 
