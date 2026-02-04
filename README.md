@@ -266,9 +266,9 @@ Table Privée Cyber (RouteCyberPriv-BFHK)
     aws ec2 create-route --route-table-id rtb-08ca6dd77278a4253 --destination-cidr-block 0.0.0.0/0 --gateway-id nat-03f168f72156ff941
     aws ec2 associate-route-table --route-table-id rtb-08ca6dd77278a4253 --subnet-id subnet-079a89320c4bd6691
 
-### 4. Instance EC2 (GitLab)
+### 4. Instance EC2 (Gitlab & Uptime)
 
-Déploiement d'une instance GitLab dans le VPC Cyber pour centraliser le code et automatiser les tests de sécurité.
+### Déploiement d'une instance GitLab dans le VPC Cyber pour centraliser le code et automatiser les tests de sécurité.
 
     aws ec2 run-instances \
         --image-id ami-06e3c045d79fd65d9 \
@@ -276,10 +276,48 @@ Déploiement d'une instance GitLab dans le VPC Cyber pour centraliser le code et
         --subnet-id subnet-0ffa006ce9b02033d \
         --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=VMCyber-Gitlab-BFHK}]'
 
-Déploiement d'une instance pour le monitoring
+### 1. Procédure d'installation
+
+    sudo apt-get update
+
+    sudo EXTERNAL_URL="http://18.217.232.200/" apt-get install gitlab-ce -y
+
+### 2. Configuration et Initialisation
+Une fois les paquets installés, GitLab doit configurer ses nombreux services internes.
+
+    sudo gitlab-ctl reconfigure
+
+### 3. Premier accès et Sécurité
+Lors de la première connexion, un mot de passe administrateur (root) est généré de manière temporaire.
+
+    sudo cat /etc/gitlab/initial_root_password
+
+### 4. Accès à l'interface 
+
+<img width="2554" height="1349" alt="Gtilab" src="https://github.com/user-attachments/assets/fbec89d7-71b0-4a5d-ab8e-5a7b74830457" />
+
+### Déploiement d'une instance pour le monitoring
 
     aws ec2 run-instances \
         --image-id ami-06e3c045d79fd65d9 \
         --instance-type t3.micro \
         --subnet-id subnet-079a89320c4bd6691 \
         --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=VMCyber-Monitoring-BFHK}]'
+
+Pour garantir la disponibilité de nos services (Ecommerce, WordPress, GitLab), nous avons déployé Uptime Kuma. Cet outil permet de surveiller en temps réel l'état des services et d'alerter en cas de coupure.
+
+### 1. Procédure d'installation (Docker)
+
+    sudo docker volume create uptime-kuma
+
+    sudo docker run -d \
+      --restart always \
+      -p 3001:3001 \
+      -v uptime-kuma:/app/data \
+      --name uptime-kuma \
+      louislam/uptime-kuma:1
+
+ ### 2. Accès à l'interface 
+
+ <img width="1907" height="906" alt="uptime" src="https://github.com/user-attachments/assets/2fd49160-6e15-4da4-91f2-9cda167f903c" />
+
