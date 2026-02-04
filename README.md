@@ -393,4 +393,37 @@ Ce groupe est conçu pour sécuriser les instances de travail de l'équipe IA.
 En raison du manque d'accès, j'ai privilégié l'utilisation exclusive du protocole SSH via un client terminal classique pour l'administration des instances, sans recourir aux services AWS Systems Manager (SSM) ou EC2 Instance Connect.
 
 
+# Partie 3 : Infrastructure Scalable et Redondante (Évolution Théorique)
 
+L'objectif de cette phase est de passer d'un déploiement manuel à une infrastructure capable de s'adapter automatiquement à la charge, tout en minimisant les interventions humaines.
+
+### 1. Schéma et Choix des Services
+
+Composant,Service AWS,Rôle & Configuration
+VPC Principal,Amazon VPC,Hébergement du MVP Ecommerce et WordPress (CIDR 10.1.0.0/16).
+Base de Données,Amazon RDS,"MariaDB managée, Multi-AZ pour la haute disponibilité, 400 Gio de stockage."
+Serveur Web,Amazon EC2,Instances t3.small hébergeant Docker pour Ecommerce et WordPress.
+Paiement,Stripe API,Intégration via clés API (Publishable/Secret) dans les variables d'environnement.
+Stockage & Backup,Amazon S3,Bucket dédié (bucket1-bfhk) pour les sauvegardes de bases de données (Dump SQL).
+Réseau Équipe IA,Amazon VPC,Réseau isolé pour l'IA (CIDR 10.2.0.0/16) avec NAT Gateway.
+Réseau Cyber,Amazon VPC,Réseau isolé pour la Cybersécurité (CIDR 10.3.0.0/16).
+Connectivité,VPC Peering,"Liaisons bidirectionnelles entre le VPC Cyber, le VPC MVP et le VPC IA."
+Gestion du Code,GitLab CE,Déployé sur une instance t3.large dans le subnet privé Cyber.
+Monitoring,Uptime Kuma,Surveillance en temps réel de la disponibilité des services sur le port 3001.
+Sécurité Accès,Security Groups,Accès SSH restreint au subnet Cyber (10.3.1.0/24) pour les instances IA et Web.
+
+### 2. Cohérence avec le Projet du Client
+
+    Gain de temps : En utilisant Amazon ECS (Fargate), l'équipe technique ne perd plus de temps à mettre à jour les OS des serveurs (patching), car AWS gère l'infrastructure.
+    Fiabilité : L'Application Load Balancer effectue des "Health Checks". Si une instance de l'application e-commerce tombe en panne, elle est automatiquement isolée et remplacée par l'Auto Scaling.
+    Optimisation des coûts : L'utilisation d'instances de type "Spot" pour l'environnement de l'équipe IA pourrait réduire la facture de 70% pour les calculs non critiques.
+
+### 3. Services Innovants (Documentation Officielle AWS)
+
+    WS Secrets Manager : Pour remplacer le fichier .env actuel. Il permet de stocker et de faire pivoter automatiquement les clés Stripe et les mots de passe RDS de manière chiffrée.
+    Amazon CloudFront (CDN) : Pour accélérer l'accès au site e-commerce mondialement en mettant en cache les images et fichiers statiques au plus proche des utilisateurs.
+    AWS Backup : Pour centraliser et automatiser les sauvegardes S3 et RDS sous une interface unique avec des politiques de rétention conformes aux audits de cybersécurité.
+
+### Conclusion du Rapport
+
+Cette architecture cible offre un équilibre parfait : elle garantit au client que son site ne tombera jamais (Haute Disponibilité) tout en libérant ses ingénieurs des tâches répétitives, leur permettant de se concentrer sur le développement du produit e-commerce.
