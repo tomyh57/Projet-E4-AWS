@@ -105,7 +105,7 @@ Extraction de l'archive et configuration des variables d'environnement pour lier
 Configuration des variables d'environnement
 
     nano .env
-    <img width="1219" height="543" alt="env" src="https://github.com/user-attachments/assets/38682fe9-7e6a-4477-b859-503cd0e20d3d" />
+<img width="1219" height="543" alt="env" src="https://github.com/user-attachments/assets/38682fe9-7e6a-4477-b859-503cd0e20d3d" />
 
 
 ### 4. Déploiement via Docker & Docker Compose
