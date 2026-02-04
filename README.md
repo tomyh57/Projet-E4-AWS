@@ -217,6 +217,7 @@ L'objectif est de scinder l'infrastructure pour accueillir deux nouvelles équip
 
 ### Schéma de l'infrastructure
 
+<img width="2008" height="1092" alt="Schema_infra drawio" src="https://github.com/user-attachments/assets/d2af808c-0034-4975-af6b-83465b9cf593" />
 
 
 ### 1. Création des VPC dédiés
