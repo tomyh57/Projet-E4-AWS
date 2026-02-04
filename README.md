@@ -372,6 +372,25 @@ Pour garantir la disponibilité de nos services (Ecommerce, WordPress, GitLab), 
 
 # Groupe de sécurité 
 
+Les Groupes de Sécurité constituent la première ligne de défense de notre infrastructure cloud. Ils agissent comme un pare-feu virtuel avec état (stateful) qui filtre le trafic directement au niveau de l'interface réseau de chaque instance EC2.
+
+Le groupe de sécurité principal est rattaché à l'instance hébergeant les applications e-commerce et WordPress dans le subnet public. Son rôle est de transformer cette instance en un point d'accès sécurisé
+
 <img width="1631" height="252" alt="Capture d&#39;écran 2026-02-04 154638" src="https://github.com/user-attachments/assets/db73d48c-af3e-43e3-9fa4-a686d4a5a1d2" />
+
+Le groupe de sécurité sert de pare-feu exclusif pour la base de données Amazon RDS. Son rôle est de garantir que les données sensibles de la boutique e-commerce et de WordPress ne soient jamais exposées sur Internet.
+
+<img width="1655" height="477" alt="Capture d&#39;écran 2026-02-04 164853" src="https://github.com/user-attachments/assets/591e4236-e40f-4b4a-ae88-ab6d7faafad7" />
+
+Ce groupe sert à définir les règles d'accès pour les outils de l'équipe Cybersécurité, notamment pour leur serveur GitLab et leurs interfaces de gestion.
+
+<img width="1643" height="562" alt="Capture d&#39;écran 2026-02-04 165204" src="https://github.com/user-attachments/assets/0b8d38fc-ff89-4a21-b7d6-797d4abc717a" />
+
+Ce groupe est conçu pour sécuriser les instances de travail de l'équipe IA.
+
+<img width="1661" height="558" alt="Capture d&#39;écran 2026-02-04 165322" src="https://github.com/user-attachments/assets/49301e3c-b3c4-4f3f-acaa-47907d31dfc5" />
+
+En raison du manque d'accès, j'ai privilégié l'utilisation exclusive du protocole SSH via un client terminal classique pour l'administration des instances, sans recourir aux services AWS Systems Manager (SSM) ou EC2 Instance Connect.
+
 
 
