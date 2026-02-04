@@ -112,8 +112,6 @@ Configuration des variables d'environnement
     sudo apt install docker.io docker-compose-v2 -y
     sudo systemctl enable --now docker
 
-    sudo usermod -aG docker $USER && newgrp docker
-
     docker compose up -d --build
 
 ### 5. Finalisation et Initialisation du Projet
@@ -124,5 +122,36 @@ Une fois les conteneurs démarrés, nous procédons à la migration du schéma d
     docker exec -it rocket_django python manage.py createsuperuser
 
 
+# Installation de WordPress sur l'Instance 
+### 1. Préparation de l'Instance
+
+installe les outils Docker.
+
+    sudo apt update && sudo apt install docker.io docker-compose-v2 -y
+    sudo systemctl enable --now docker
+
+### 2. Création du fichier docker-compose.yml
+
+Puisque WordPress est seul sur cette instance, nous pouvons utiliser le port 80 standard.
+
+    mkdir ~/wordpress && cd ~/wordpress
+    nano docker-compose.yml
+
+### 3. Lancement et vérification
+
+    docker compose up -d
+
+# Partie 2 : Isolation et Connectivité Inter-Équipes
+
+L'objectif est de scinder l'infrastructure pour accueillir deux nouvelles équipes tout en maintenant une isolation stricte.
+
+### 1. Création des VPC dédiés
+
+    aws ec2 create-vpc --cidr-block 10.2.0.0/16 --tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=VPC-IA-BFHK}]'
+    aws ec2 create-vpc --cidr-block 10.3.0.0/16 --tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=VPC-Cyber-BFHK}]'
+
+### 2. Segmentation Interne (Subnets Publics et Privés)
+
+Chaque équipe doit avoir un subnet public et un privé
 
 
