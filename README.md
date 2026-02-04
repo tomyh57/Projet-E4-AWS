@@ -266,5 +266,13 @@ Table Privée Cyber (RouteCyberPriv-BFHK)
     aws ec2 create-route --route-table-id rtb-08ca6dd77278a4253 --destination-cidr-block 0.0.0.0/0 --gateway-id nat-03f168f72156ff941
     aws ec2 associate-route-table --route-table-id rtb-08ca6dd77278a4253 --subnet-id subnet-079a89320c4bd6691
 
+### 4. Instance EC2 (GitLab)
 
+Déploiement d'une instance GitLab dans le VPC Cyber pour centraliser le code et automatiser les tests de sécurité.
+
+    aws ec2 run-instances \
+        --image-id ami-06e3c045d79fd65d9 \
+        --instance-type t3.large \
+        --subnet-id subnet-0ffa006ce9b02033d \
+        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=VMCyber-Gitlab-BFHK}]'
 
