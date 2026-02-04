@@ -38,7 +38,7 @@ Configuration de l'accès Internet
     aws ec2 create-internet-gateway --query 'InternetGateway.InternetGatewayId' --output text
     aws ec2 attach-internet-gateway --vpc-id vpc-02b34098f121dd272 --internet-gateway-id igw-0a1efe59caa7ac25b
     
-    aws ec2 create-route aws ec2 create-route-table --vpc-id vpc-02b34098f121dd272
+    aws ec2 create-route-table --vpc-id vpc-02b34098f121dd272
     aws ec2 create-route --route-table-id rtb-09d0bf2e568cca802 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-0a1efe59caa7ac25b
     aws ec2 associate-route-table --route-table-id rtb-09d0bf2e568cca802 --subnet-id subnet-05e8caac9f82d6e34
 
