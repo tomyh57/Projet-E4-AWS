@@ -179,4 +179,59 @@ Pour que la communication fonctionne, nous devons ajouter des routes vers les CI
     aws ec2 create-route --route-table-id $RT_CYBER_ID --destination-cidr-block 10.1.0.0/16 --vpc-peering-connection-id $PEERING_MVP_ID
     aws ec2 create-route --route-table-id $RT_MVP_ID --destination-cidr-block 10.3.0.0/16 --vpc-peering-connection-id $PEERING_MVP_ID
 
+# 3. Création des Internet Gateways (IGW)
 
+ Chaque VPC a besoin de sa propre porte de sortie vers Internet.
+ 
+    IGW_IA_ID=$(aws ec2 create-internet-gateway --query 'InternetGateway.InternetGatewayId' --output text)
+    aws ec2 attach-internet-gateway --vpc-id $IA_ID --internet-gateway-id $IGW_IA_ID
+
+    IGW_CYBER_ID=$(aws ec2 create-internet-gateway --query 'InternetGateway.InternetGatewayId' --output text)
+    aws ec2 attach-internet-gateway --vpc-id $CYBER_ID --internet-gateway-id $IGW_CYBER_ID
+
+# 4. Mise en place de la NAT Gateway
+
+Une NAT Gateway (Network Address Translation) permet aux instances d'un subnet privé d'initier du trafic vers internet (pour télécharger des packages, par exemple) tout en empêchant internet d'initier une connexion directe vers elles.
+
+### 1. Allouer une IP Élastique (EIP)
+
+    aws ec2 allocate-address --domain vpc --query 'AllocationId' --output text
+
+### 2. Créer la NAT Gateway
+
+    aws ec2 create-nat-gateway \
+        --subnet-id subnet-0ffa006ce9b02033d \
+        --allocation-id eipalloc-0b6342740726e0001 \
+        --query 'NatGateway.NatGatewayId' --output text
+
+    aws ec2 create-nat-gateway \
+        --subnet-id subnet-0ab919f86f672063b \
+        --allocation-id eipalloc-06b4437d4faaec0fd \
+        --query 'NatGateway.NatGatewayId' --output text
+
+### 3. Configurer la Table de Routage Privée
+
+Table Publique IA (RouteIAPub-BFHK)
+    
+    aws ec2 create-route-table --vpc-id vpc-08c58a7ebc10f4aeb --tag-specifications 'ResourceType=route-table,Tags=[{Key=Name,Value=RouteIAPub-BFHK}]'
+    aws ec2 create-route --route-table-id rtb-0c109bc902995016f --destination-cidr-block 0.0.0.0/0 --gateway-id igw-00dd9a81f2a3288de
+    aws ec2 associate-route-table --route-table-id rtb-0c109bc902995016f --subnet-id subnet-0ab919f86f672063b
+    
+Table Privée IA (RouteIAPriv-BFHK)
+
+    aws ec2 create-route-table --vpc-id vpc-08c58a7ebc10f4aeb --tag-specifications 'ResourceType=route-table,Tags=[{Key=Name,Value=RouteIAPriv-BFHK}]'
+    aws ec2 create-route --route-table-id rtb-0c109bc902995016f --destination-cidr-block 0.0.0.0/0 --gateway-id nat-02662faf7b9c89505
+    aws ec2 associate-route-table --route-table-id rtb-00d5cac12a3f620b6 --subnet-id subnet-00208f3848dcef8e8
+
+
+Table Publique Cyber (RouteCyberPub-BFHK)
+
+    aws ec2 create-route-table --vpc-id vpc-08babe0c09d5cad59 --tag-specifications 'ResourceType=route-table,Tags=[{Key=Name,Value=RouteCyberPub-BFHK}]'
+    aws ec2 create-route --route-table-id rtb-091ef9535e0787457 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-0c482a7fad8b142d5
+    aws ec2 associate-route-table --route-table-id rtb-091ef9535e0787457 --subnet-id subnet-0ffa006ce9b02033d
+
+Table Privée Cyber (RouteCyberPriv-BFHK)
+
+    aws ec2 create-route-table --vpc-id vpc-08babe0c09d5cad59 --tag-specifications 'ResourceType=route-table,Tags=[{Key=Name,Value=RouteCyberPriv-BFHK}]'
+    aws ec2 create-route --route-table-id rtb-08ca6dd77278a4253 --destination-cidr-block 0.0.0.0/0 --gateway-id nat-03f168f72156ff941
+    aws ec2 associate-route-table --route-table-id rtb-08ca6dd77278a4253 --subnet-id subnet-079a89320c4bd6691
