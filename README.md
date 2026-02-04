@@ -105,6 +105,13 @@ Extraction de l'archive et configuration des variables d'environnement pour lier
 Configuration des variables d'environnement
 
     nano .env
+    
+Comme illustré dans la configuration du fichier .env, l'application communique avec Stripe grâce à deux clés uniques :
+
+    STRIPE_PUBLISHABLE_KEY : Utilisée côté front-end pour générer le formulaire de paiement sécurisé.
+
+    STRIPE_SECRET_KEY : Utilisée côté back-end (Django) pour valider les transactions avec les serveurs de Stripe.
+
 <img width="1219" height="543" alt="env" src="https://github.com/user-attachments/assets/38682fe9-7e6a-4477-b859-503cd0e20d3d" />
 
 
@@ -114,6 +121,10 @@ Configuration des variables d'environnement
     sudo systemctl enable --now docker
 
     docker compose up -d --build
+
+<img width="571" height="591" alt="dockercompose" src="https://github.com/user-attachments/assets/a66f0db5-94c2-4be1-ae4b-fae442a21f45" />
+<img width="571" height="591" alt="dockercompose" src="https://github.com/user-attachments/assets/a66f0db5-94c2-4be1-ae4b-fae442a21f45" />
+<img width="571" height="591" alt="dockercompose" src="https://github.com/user-attachments/assets/a66f0db5-94c2-4be1-ae4b-fae442a21f45" />
 
 Page web Ecommerce
 <img width="1894" height="1031" alt="ecommecer" src="https://github.com/user-attachments/assets/57ee8c83-9c69-4a5e-b84d-d54146b3f983" />
