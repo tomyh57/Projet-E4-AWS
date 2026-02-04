@@ -399,18 +399,21 @@ L'objectif de cette phase est de passer d'un déploiement manuel à une infrastr
 
 ### 1. Schéma et Choix des Services
 
-Composant,Service AWS,Rôle & Configuration
-VPC Principal,Amazon VPC,Hébergement du MVP Ecommerce et WordPress (CIDR 10.1.0.0/16).
-Base de Données,Amazon RDS,"MariaDB managée, Multi-AZ pour la haute disponibilité, 400 Gio de stockage."
-Serveur Web,Amazon EC2,Instances t3.small hébergeant Docker pour Ecommerce et WordPress.
-Paiement,Stripe API,Intégration via clés API (Publishable/Secret) dans les variables d'environnement.
-Stockage & Backup,Amazon S3,Bucket dédié (bucket1-bfhk) pour les sauvegardes de bases de données (Dump SQL).
-Réseau Équipe IA,Amazon VPC,Réseau isolé pour l'IA (CIDR 10.2.0.0/16) avec NAT Gateway.
-Réseau Cyber,Amazon VPC,Réseau isolé pour la Cybersécurité (CIDR 10.3.0.0/16).
-Connectivité,VPC Peering,"Liaisons bidirectionnelles entre le VPC Cyber, le VPC MVP et le VPC IA."
-Gestion du Code,GitLab CE,Déployé sur une instance t3.large dans le subnet privé Cyber.
-Monitoring,Uptime Kuma,Surveillance en temps réel de la disponibilité des services sur le port 3001.
-Sécurité Accès,Security Groups,Accès SSH restreint au subnet Cyber (10.3.1.0/24) pour les instances IA et Web.
+
+| Composant | Service AWS | Détails de Configuration |
+| :--- | :--- | :--- |
+| **Réseau Principal (Web)** | Amazon VPC | CIDR `10.1.0.0/16` avec segmentation Public/Privé |
+| **Base de Données** | Amazon RDS | MariaDB, **Multi-AZ** (Haute Disponibilité), Subnet Privé |
+| **Serveurs Web** | Amazon EC2 | Instances `t3.small` hébergeant Docker (Ecommerce + WordPress) |
+| **Paiement** | Stripe API | Intégration backend (Django) via variables d'environnement |
+| **Stockage & Backup** | Amazon S3 | Bucket dédié `bucket1-bfhk` pour l'archivage des dumps SQL |
+| **Réseau IA** | Amazon VPC | Environnement isolé (`10.2.0.0/16`) pour l'entraînement de modèles |
+| **Réseau Cybersécurité** | Amazon VPC | Environnement d'administration (`10.3.0.0/16`) |
+| **Connectivité Inter-VPC**| VPC Peering | Connexion bidirectionnelle : Cyber ↔ MVP et Cyber ↔ IA |
+| **Sortie Internet Privée**| NAT Gateway | Permet les mises à jour sécurisées pour les instances privées |
+| **DevSecOps** | EC2 (Cyber) | Serveur **GitLab CE** (`t3.large`) pour la gestion du code |
+| **Monitoring** | Docker | **Uptime Kuma** pour la surveillance des services (Port 3001) |
+| **Sécurité d'Accès** | Security Groups | **SSH (Port 22)** restreint uniquement au subnet Cyber (`10.3.1.0/24`) |
 
 ### 2. Cohérence avec le Projet du Client
 
