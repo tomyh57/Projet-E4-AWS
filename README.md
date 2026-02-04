@@ -276,3 +276,10 @@ Déploiement d'une instance GitLab dans le VPC Cyber pour centraliser le code et
         --subnet-id subnet-0ffa006ce9b02033d \
         --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=VMCyber-Gitlab-BFHK}]'
 
+Déploiement d'une instance pour le monitoring
+
+    aws ec2 run-instances \
+        --image-id ami-06e3c045d79fd65d9 \
+        --instance-type t3.micro \
+        --subnet-id subnet-079a89320c4bd6691 \
+        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=VMCyber-Monitoring-BFHK}]'
