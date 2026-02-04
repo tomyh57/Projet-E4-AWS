@@ -231,7 +231,7 @@ L'objectif est de scinder l'infrastructure pour accueillir deux nouvelles équip
 
 Pour permettre à l'équipe Cybersécurité d'accéder aux environnements IA et Web (MVP), nous avons établi des connexions de peering bidirectionnelles.
 
-### 1. Établissement des connexions
+### 3. Établissement des connexions
 
     PEERING_MVP_ID=$(aws ec2 create-vpc-peering-connection \
         --vpc-id $CYBER_ID \
@@ -249,7 +249,7 @@ Pour permettre à l'équipe Cybersécurité d'accéder aux environnements IA et 
 
     aws ec2 accept-vpc-peering-connection --vpc-peering-connection-id $PEERING_IA_ID
 
-### 2. Mise à jour des Tables de Routage (Étape cruciale)
+### 4. Mise à jour des Tables de Routage (Étape cruciale)
 
 Pour que la communication fonctionne, nous devons ajouter des routes vers les CIDR adverses.
 
@@ -322,7 +322,7 @@ Table Privée Cyber (RouteCyberPriv-BFHK)
     aws ec2 create-route --route-table-id rtb-08ca6dd77278a4253 --destination-cidr-block 0.0.0.0/0 --gateway-id nat-03f168f72156ff941
     aws ec2 associate-route-table --route-table-id rtb-08ca6dd77278a4253 --subnet-id subnet-079a89320c4bd6691
 
-### 4. Instance EC2 (Gitlab & Uptime)
+# 5. Instance EC2 (Gitlab & Uptime)
 
 ### Déploiement d'une instance GitLab dans le VPC Cyber pour centraliser le code et automatiser les tests de sécurité.
 
@@ -352,7 +352,7 @@ Lors de la première connexion, un mot de passe administrateur (root) est géné
 
 <img width="2554" height="1349" alt="Gtilab" src="https://github.com/user-attachments/assets/fbec89d7-71b0-4a5d-ab8e-5a7b74830457" />
 
-### Déploiement d'une instance pour le monitoring
+# 6. Déploiement d'une instance pour le monitoring
 
     aws ec2 run-instances \
         --image-id ami-06e3c045d79fd65d9 \
@@ -378,7 +378,7 @@ Pour garantir la disponibilité de nos services (Ecommerce, WordPress, GitLab), 
  <img width="1907" height="906" alt="uptime" src="https://github.com/user-attachments/assets/2fd49160-6e15-4da4-91f2-9cda167f903c" />
 
 
-# Groupe de sécurité 
+# 7. Groupe de sécurité 
 
 Les Groupes de Sécurité constituent la première ligne de défense de notre infrastructure cloud. Ils agissent comme un pare-feu virtuel avec état (stateful) qui filtre le trafic directement au niveau de l'interface réseau de chaque instance EC2.
 
