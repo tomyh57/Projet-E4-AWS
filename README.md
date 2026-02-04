@@ -141,6 +141,27 @@ Puisque WordPress est seul sur cette instance, nous pouvons utiliser le port 80 
 
     docker compose up -d
 
+# Procédure de Sauvegarde de la Base de Données (RDS vers S3)
+
+Conformément aux consignes du projet, nous avons mis en place un processus de sauvegarde exportant les données de l'instance Amazon RDS vers un bucket Amazon S3.
+
+### 1. Extraction des données (Dump SQL)
+
+    mysqldump -h database-1-bfhk.ctykc0gcmtio.us-east-2.rds.amazonaws.com \
+      -u admin -p \
+      --single-transaction \
+      --set-gtid-purged=OFF \
+      Database1BFHK > backup.sql
+
+### 2. Configuration de l'accès AWS CLI
+
+    aws configure
+ 
+### 3. Transfert vers le stockage dédié (S3)
+
+    aws s3 cp backup.sql s3://bucket1-bfhk/DB1/
+
+
 # Partie 2 : Isolation et Connectivité Inter-Équipes
 
 L'objectif est de scinder l'infrastructure pour accueillir deux nouvelles équipes tout en maintenant une isolation stricte.
@@ -235,3 +256,6 @@ Table Privée Cyber (RouteCyberPriv-BFHK)
     aws ec2 create-route-table --vpc-id vpc-08babe0c09d5cad59 --tag-specifications 'ResourceType=route-table,Tags=[{Key=Name,Value=RouteCyberPriv-BFHK}]'
     aws ec2 create-route --route-table-id rtb-08ca6dd77278a4253 --destination-cidr-block 0.0.0.0/0 --gateway-id nat-03f168f72156ff941
     aws ec2 associate-route-table --route-table-id rtb-08ca6dd77278a4253 --subnet-id subnet-079a89320c4bd6691
+
+
+
