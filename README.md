@@ -1,6 +1,6 @@
 # Projet-E4-AWS
 
-Auteur : HOMBOURGER Tomy - BERNARD Jonathan - KADI Soulaymane - FIGAROLI Romain
+Auteurs : HOMBOURGER Tomy - BERNARD Jonathan - KADI Soulaymane - FIGAROLI Romain
 
 ## Présentation du Projet
 
