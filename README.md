@@ -351,3 +351,6 @@ Pour garantir la disponibilité de nos services (Ecommerce, WordPress, GitLab), 
 
  <img width="1907" height="906" alt="uptime" src="https://github.com/user-attachments/assets/2fd49160-6e15-4da4-91f2-9cda167f903c" />
 
+
+# Groupe de sécurité 
+
