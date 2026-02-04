@@ -122,11 +122,15 @@ Comme illustré dans la configuration du fichier .env, l'application communique 
 
     docker compose up -d --build
 
-<img width="571" height="591" alt="dockercompose" src="https://github.com/user-attachments/assets/a66f0db5-94c2-4be1-ae4b-fae442a21f45" />
-<img width="571" height="591" alt="dockercompose" src="https://github.com/user-attachments/assets/a66f0db5-94c2-4be1-ae4b-fae442a21f45" />
+### Docker compose
 <img width="571" height="591" alt="dockercompose" src="https://github.com/user-attachments/assets/a66f0db5-94c2-4be1-ae4b-fae442a21f45" />
 
-Page web Ecommerce
+### Appseed.conf 
+
+<img width="703" height="346" alt="appseed" src="https://github.com/user-attachments/assets/31474289-371d-4198-9566-74cc3413a02e" />
+
+### Page web Ecommerce
+
 <img width="1894" height="1031" alt="ecommecer" src="https://github.com/user-attachments/assets/57ee8c83-9c69-4a5e-b84d-d54146b3f983" />
 
 ### 5. Finalisation et Initialisation du Projet
