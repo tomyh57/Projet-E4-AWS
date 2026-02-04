@@ -150,8 +150,33 @@ L'objectif est de scinder l'infrastructure pour accueillir deux nouvelles équip
     aws ec2 create-vpc --cidr-block 10.2.0.0/16 --tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=VPC-IA-BFHK}]'
     aws ec2 create-vpc --cidr-block 10.3.0.0/16 --tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=VPC-Cyber-BFHK}]'
 
-### 2. Segmentation Interne (Subnets Publics et Privés)
+### 2. Connectivité Inter-VPC (VPC Peering)
 
-Chaque équipe doit avoir un subnet public et un privé
+Pour permettre à l'équipe Cybersécurité d'accéder aux environnements IA et Web (MVP), nous avons établi des connexions de peering bidirectionnelles.
+
+### 1. Établissement des connexions
+
+    PEERING_MVP_ID=$(aws ec2 create-vpc-peering-connection \
+        --vpc-id $CYBER_ID \
+        --peer-vpc-id $MVP_ID \
+        --tag-specifications 'ResourceType=vpc-peering-connection,Tags=[{Key=Name,Value=Peering-Cyber-MVP-BFHK}]' \
+        --query 'VpcPeeringConnection.VpcPeeringConnectionId' --output text)
+
+    aws ec2 accept-vpc-peering-connection --vpc-peering-connection-id $PEERING_MVP_ID
+
+    PEERING_IA_ID=$(aws ec2 create-vpc-peering-connection \
+        --vpc-id $CYBER_ID \
+        --peer-vpc-id $IA_ID \
+        --tag-specifications 'ResourceType=vpc-peering-connection,Tags=[{Key=Name,Value=Peering-Cyber-IA-BFHK}]' \
+        --query 'VpcPeeringConnection.VpcPeeringConnectionId' --output text)
+
+    aws ec2 accept-vpc-peering-connection --vpc-peering-connection-id $PEERING_IA_ID
+
+### 2. Mise à jour des Tables de Routage (Étape cruciale)
+
+Pour que la communication fonctionne, nous devons ajouter des routes vers les CIDR adverses.
+
+    aws ec2 create-route --route-table-id $RT_CYBER_ID --destination-cidr-block 10.1.0.0/16 --vpc-peering-connection-id $PEERING_MVP_ID
+    aws ec2 create-route --route-table-id $RT_MVP_ID --destination-cidr-block 10.3.0.0/16 --vpc-peering-connection-id $PEERING_MVP_ID
 
 
