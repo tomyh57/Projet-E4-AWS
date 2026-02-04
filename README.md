@@ -1,5 +1,7 @@
 # Projet-E4-AWS
 
+Auteur : HOMBOURGER Tomy - BERNARD Jonathan - KADI Soulaymane - FIGAROLI Romain
+
 ## Présentation du Projet
 
 Ce dépôt contient l'ensemble des scripts de déploiement et la documentation technique pour la mise en place d'une infrastructure AWS. Le projet répond à trois besoins majeurs :
